@@ -1,0 +1,31 @@
+.marquee{
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    .content{
+        animation: marqueeAnimation 5s infinite linear;
+        white-space: nowrap;
+    }
+
+    .overlay{
+        position: absolute;
+        top: 0;
+        height: 100%;
+    }
+    .leftOverlay{
+        left: 0;
+    }
+    .rightOverlay{
+        right: 0;
+    }
+}
+
+@keyframes marqueeAnimation {
+    0%{
+        transform: translate(0);
+    }
+    100%{
+        transform: translate(-100%);
+    }
+}
+
