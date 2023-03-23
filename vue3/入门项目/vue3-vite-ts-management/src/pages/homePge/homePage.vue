@@ -1,12 +1,44 @@
 <template>
   <div class="homePage_container">
     <div class="header">header</div>
-    <div class="menus">menus</div>
+    <div class="menus">
+      <el-menu active-text-color="#ffd04b" background-color="#545c64" class="el-menu-vertical-demo" default-active="2" text-color="#fff">
+        <el-sub-menu :index="item.id" v-for="item in newMenu" :key="item.id">
+          <template #title>
+            <span>{{ item.title }} </span>
+          </template>
+          <template v-for="subItem in item.children" :key="subItem.id">
+            <el-menu-item index="" v-if="!subItem.hidden">
+              <template #title>
+                <span>{{ subItem.title }} </span>
+              </template>
+            </el-menu-item>
+          </template>
+        </el-sub-menu>
+      </el-menu>
+    </div>
     <div class="content">content</div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useStore } from 'vuex'
+
+interface menuObj {
+  parentId: number
+  id: number
+  title: string
+  hidden: number
+  children?: menuObj[]
+}
+
+interface NavMenu {
+  [key: number]: menuObj
+}
+
+let store = useStore()
+let newMenu: NavMenu = store.getters.getMenusArr
+</script>
 
 <style lang="less" scoped>
 .homePage_container {
