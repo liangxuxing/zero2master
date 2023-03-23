@@ -1,18 +1,19 @@
 <template>
-  <div>
-    <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" class="demo-ruleForm">
-      <el-form-item label="账号" prop="usr">
-        <el-input v-model="ruleForm.usr" type="text" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="密码" prop="psw">
-        <el-input v-model="ruleForm.psw" type="password" autocomplete="off" />
-      </el-form-item>
+  <div class="login_container">
+    <div class="login_context">
+      <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="demo-ruleForm">
+        <el-form-item prop="usr">
+          <el-input v-model="ruleForm.usr" type="text" autocomplete="off" />
+        </el-form-item>
+        <el-form-item prop="psw">
+          <el-input v-model="ruleForm.psw" type="password" autocomplete="off" />
+        </el-form-item>
 
-      <el-form-item>
-        <el-button type="primary" @click="submitForm()">登录</el-button>
-        <el-button @click="resetForm()">重置</el-button>
-      </el-form-item>
-    </el-form>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm()">登录</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -21,6 +22,7 @@ import { reactive, toRefs, ref } from 'vue'
 import { FormInstance, FormRules } from 'element-plus'
 import { adminLogin, getAdminLoginInfo } from '../../request/api'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 import Cookie from 'js-cookie'
 let state = reactive({
   ruleForm: {
@@ -28,6 +30,7 @@ let state = reactive({
     psw: '123456'
   }
 })
+let store = useStore()
 let { ruleForm } = toRefs(state)
 let ruleFormRef = ref()
 const validatePass = (rule: any, value: any, callback: any) => {}
@@ -59,8 +62,10 @@ const submitForm = () => {
             console.log('登录成功')
             getAdminLoginInfo()
               .then((result) => {
-                if(result.code===200)router.push('/homePage')
-
+                if (result.code === 200) {
+                  store.commit('updateMenus', result.data.menus)
+                  router.push('/homePage')
+                }
               })
               .catch((err) => {})
           }
@@ -78,4 +83,15 @@ const submitForm = () => {
 const resetForm = () => {}
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+.login_container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .login_context {
+  }
+}
+</style>
