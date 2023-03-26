@@ -60,14 +60,17 @@ const submitForm = () => {
           if (res.code === 200) {
             Cookie.set('token', res.data.tokenHead + res.data.token, { expires: 7 })
             console.log('登录成功')
-            getAdminLoginInfo()
-              .then((result) => {
-                if (result.code === 200) {
-                  store.commit('updateMenus', result.data.menus)
-                  router.push('/homePage')
-                }
-              })
-              .catch((err) => {})
+            store.dispatch('getMenuInfo').then((res) => {
+              router.push('/index')
+            })
+            // getAdminLoginInfo()
+            //   .then((result) => {
+            //     if (result.code === 200) {
+            //       store.commit('updateMenus', result.data.menus)
+            //       router.push('/homePage')
+            //     }
+            //   })
+            //   .catch((err) => {})
           }
           console.log(res, 'res')
         })

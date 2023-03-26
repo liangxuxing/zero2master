@@ -2,13 +2,13 @@
   <div class="homePage_container">
     <div class="header">header</div>
     <div class="menus">
-      <el-menu active-text-color="#ffd04b" background-color="#545c64" class="el-menu-vertical-demo" default-active="2" text-color="#fff">
-        <el-sub-menu :index="item.id" v-for="item in newMenu" :key="item.id">
+      <el-menu active-text-color="#ffd04b" router background-color="#545c64" class="el-menu-vertical-demo" default-active="2" text-color="#fff">
+        <el-sub-menu :index="item.id + ''" v-for="item in newMenu" :key="item.id">
           <template #title>
             <span>{{ item.title }} </span>
           </template>
           <template v-for="subItem in item.children" :key="subItem.id">
-            <el-menu-item index="" v-if="!subItem.hidden">
+            <el-menu-item :index="'/' + item.name + '/' + subItem.name" v-if="!subItem.hidden">
               <template #title>
                 <span>{{ subItem.title }} </span>
               </template>
@@ -17,18 +17,22 @@
         </el-sub-menu>
       </el-menu>
     </div>
-    <div class="content">content</div>
+    <div class="content">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useStore } from 'vuex'
-
+// import { useStore } from 'vuex'
+import store from '../../store'
+import { reactive, computed } from 'vue'
 interface menuObj {
   parentId: number
   id: number
   title: string
   hidden: number
+  name: string
   children?: menuObj[]
 }
 
@@ -36,8 +40,10 @@ interface NavMenu {
   [key: number]: menuObj
 }
 
-let store = useStore()
+// let store = useStore()
 let newMenu: NavMenu = store.getters.getMenusArr
+// let newMenu = computed<NavMenu>(() => store.getters.getMenusArr)
+console.log('newmenu', newMenu)
 </script>
 
 <style lang="less" scoped>

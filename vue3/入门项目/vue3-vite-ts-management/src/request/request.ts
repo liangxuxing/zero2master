@@ -12,10 +12,6 @@ instance.interceptors.request.use(
       config.headers = config.headers || {}
       config.headers.Authorization = token
     }
-    console.log('toekn', token)
-
-    console.log('config', config)
-
     return config
   },
   (err) => {
