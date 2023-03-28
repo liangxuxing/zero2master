@@ -18,3 +18,4 @@
 1.新建app文件夹，内建index.js。将http服务与app服务拆分
 2.新建controller文件夹，例子：建造usersController，是关于user的操作api，class userController,类里面有异步的各种user方法，根据不同的需求去调用service层处理业务逻辑。然后暴露出去。
 3.router文件夹导入这个Controller，并分配到响应的路由中间件（将路由与控制器拆分）
+4.封装Service层。将与数据

@@ -1,5 +1,7 @@
 const { APP_PORT } = require('./config.default')
-const app=require('./app')
+
+
+const app = require('./src/app')
 // const Router=require('koa-router')
 
 // const indexRouter=new Router()
